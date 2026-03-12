@@ -2,38 +2,33 @@
 """
 Author: Keaton Gobrecht
 Email: kgobrecht@madisoncollege.edu
-Description: <milestone06 wu06>
+Description: <Semester long script which analyzes an Apache web log to determine if the highest-hitting IP address is a current threat.>
 """
+import sys 
 
-import sys
-
-listofYs = ['y', 'yep', 'yup', 'yeah']
+listOfYs = ['y', 'yes', 'yep', 'yup', 'yeah']
 
 if len(sys.argv) > 1:
-    strContinue = sys.argv[1].lower
-else:
-    strContinue = input("Would you like to continue? (y/n)\n>>>>").lower
-    
-    if strContinue in listofYs:
-        
-        with open("06.access.log", "r") as wrapperLogFile:
-            strLoglines = wrapperLogFile.read()
-            
-        listLogLines = strLoglines.split('\n')
-        
-        with open("milestone06analysis.txt", "w") as wrapperLogFile:
-            
-            for strLogLine in listLogLines:
-                listLogLine = listLogLines.split(" ")
-                strIPAddress = listLogLine[0]
-                strReturnCode = listLogLine[8]
-                strIPReturnCode = f"{strIPAddress} - {strReturnCode}"
-                if strReturnCode >= '400':
-                    print(strIPReturnCode)
-                    if strReturnCode >='500':
-                        wrapperLogFile.write(f"{strIPReturnCode}\n") 
-                    else: 
-                        print("Program has ended")
+    strContinue = sys.argv[1].lower()
+else:    
+    strContinue = input("Would you like to continue?    (y/n)\n>>>> ").lower()
 
+if strContinue in listOfYs:
+
+    with open("06_CP-Access.log", "r") as wrapperLogFile:
+        strLogLines = wrapperLogFile.read()
+
+    listLogLines = strLogLines.split("\n")
     
-            
+    with open("milestone06analysis.txt", "w") as wrapperLogFile:
+     
+        for strLogLine in listLogLines:
+            listLogLine = strLogLine.split(" ")
+            strIPAddress = listLogLine[0]
+            strIPReturnCode = listLogLine[8]
+            strIPReturnCode = f"{strIPAddress} - {strIPReturnCode}"
+            if strIPReturnCode >= '400':
+                print(strIPReturnCode)
+                if strIPReturnCode >= '500':
+                    wrapperLogFile.write(f"{strIPReturnCode}\n")
+
